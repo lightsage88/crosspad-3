@@ -1,4 +1,9 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { 
+    decrementCount,
+    incrementCount
+} from '../../redux/Counter/counter.actions';
 import Button from '@mui/material/Button';
 import TwitchService from '../../vendor-api-services/twitch-service.js';
 import AsyncTools from '../../utilities/async-tools.js';
@@ -32,9 +37,17 @@ class Header extends React.Component {
     /**
      * This method handles the clicking of the button in the header.
      */
-    handleClickEvent() {
+    handleClickEvent(type) {
         console.log('handleClickEvent running...', this.state.count);
-        this.setStateAsync({ count: this.state.count + 1 })
+        switch (type) {
+            case 'add':
+                break;
+            case 'subtract':
+                break;
+            default:
+                null;
+                break;
+        }
     }
     //#endregion
 
@@ -49,18 +62,30 @@ class Header extends React.Component {
                 <strong>Number of times you clicked the button: {this.state.count}</strong>
                 <br />
                 <Button
-                    onClick={() => this.handleClickEvent()}
+                    onClick={() => this.handleClickEvent('add')}
                     variant="outlined"
                 >
-                    Click me, fool
+                    Add 1
+                </Button>
+                <Button
+                    onClick={() => this.handleClickEvent('subtract')}
+                    variant="outlined"
+                >
+                    Add 1
                 </Button>
             </div>
         );
     }
 }
 
-Header.propTypes = {
-
+const mapDispatchToProps = {
+    decrementCount,
+    incrementCount
 }
 
-export default Header;
+Header.propTypes = {
+    decrementCount: PropTypes.func,
+    incrementCount: PropTypes.func
+}
+
+export default connect(null, mapDispatchToProps)(Header);
