@@ -32,17 +32,18 @@ class Header extends React.Component {
     }
     //#endregion
 
-
     //#region Event Handlers
     /**
      * This method handles the clicking of the button in the header.
+     * @param {String} type - a string that will impact what happens in the switch case within the method
      */
     handleClickEvent(type) {
-        console.log('handleClickEvent running...', this.state.count);
         switch (type) {
             case 'add':
+                this.props.incrementCount();
                 break;
             case 'subtract':
+                this.props.decrementCount();
                 break;
             default:
                 null;
@@ -59,33 +60,38 @@ class Header extends React.Component {
         return (
             <div id="header-div">
                 <h1>Crosspad 3</h1>
-                <strong>Number of times you clicked the button: {this.state.count}</strong>
+                <strong>Number of times you clicked the button: {this.props.count}</strong>
                 <br />
                 <Button
                     onClick={() => this.handleClickEvent('add')}
                     variant="outlined"
                 >
-                    Add 1
+                    Add
                 </Button>
                 <Button
                     onClick={() => this.handleClickEvent('subtract')}
                     variant="outlined"
                 >
-                    Add 1
+                    Subtract
                 </Button>
             </div>
         );
     }
 }
 
+const mapStateToProps = state => ({
+    count: state.counter.count
+});
+
 const mapDispatchToProps = {
     decrementCount,
     incrementCount
-}
+};
 
 Header.propTypes = {
+    count: PropTypes.number,
     decrementCount: PropTypes.func,
     incrementCount: PropTypes.func
-}
+};
 
-export default connect(null, mapDispatchToProps)(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
