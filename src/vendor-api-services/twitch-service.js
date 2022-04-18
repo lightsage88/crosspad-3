@@ -1,5 +1,5 @@
-import axios from "axios";
-import VendorAPIServiceBase from "./vendor-api-service-base";
+import axios from 'axios';
+import VendorAPIServiceBase from './vendor-api-service-base';
 
 class TwitchService extends VendorAPIServiceBase {
     constructor() {
@@ -17,9 +17,8 @@ class TwitchService extends VendorAPIServiceBase {
             `https://id.twitch.tv/oauth2/token?client_id=${process.env.REACT_APP_TWITCH_CLIENT_ID}&client_secret=${process.env.REACT_APP_TWITCH_CLIENT_SECRET}&grant_type=client_credentials`
         );
         console.log('TwitchService: getCredentials running: ', response);
+        return response;
     }
-
-
-};
+}
 
 export default TwitchService;
