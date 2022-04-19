@@ -1,14 +1,22 @@
 import React, { useState, useEffect } from 'react';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import Menu from '@mui/material/Menu';
+import MenuIcon from '@mui/icons-material/Menu';
+import Container from '@mui/material/Container';
+import Avatar from '@mui/material/Avatar';
+import Tooltip from '@mui/material/Tooltip';
+import MenuItem from '@mui/material/MenuItem';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import {
-    decrementCount,
-    incrementCount
-} from '../../redux/Counter/counter.actions';
 import Button from '@mui/material/Button';
 import TwitchService from '../../vendor-api-services/twitch-service.js';
 import AsyncTools from '../../utilities/async-tools.js';
 import PropTypes from 'prop-types';
+import ButtonReduxExperiment from '../button-redux-experiment/button-redux-experiment';
 let twitchService = new TwitchService();
 
 /**
@@ -16,8 +24,12 @@ let twitchService = new TwitchService();
  * It will enable users to login, signup, and navigate to children pages throughout the application.
  */
 function Header(props) {
+    const [anchorElNav, setAnchorElNav] = useState(null);
+    const [anchorElUser, setAnchorElUser] = useState(null);
     const [twitchExpiry, setTwitchExpiry] = useState(new Date());
     const [twitchKey, setTwitchKey] = useState(null);
+    const pages = ['Home', 'About', 'Projects', 'Contact'];
+    const settings = ['Profile', 'Account', 'Dashboard', 'Logout', 'Delete THIS'];
 
     /**
      * This is a React Hook comprising 'componentDidMount', 'componentDidUpdate', and 'componentWillUnmount'
@@ -51,27 +63,25 @@ function Header(props) {
          */
         if (new Date() > twitchExpiry || !twitchKey) {
             fetchTwitchKey();
-        } 
+        }
         //#endregion
     });
 
     //#region Event Handlers
-    /**
-     * This method handles the clicking of the button in the header.
-     * @param {String} type - a string that will impact what happens in the switch case within the method
-     */
-    function handleClickEvent(type) {
-        switch (type) {
-            case 'add':
-                props.incrementCount();
-                break;
-            case 'subtract':
-                props.decrementCount();
-                break;
-            default:
-                null;
-                break;
-        }
+    function handleOpenNavMenu(event) {
+        setAnchorElNav(event.currentTarget);
+    }
+
+    function handleOpenUserMenu(event) {
+        setAnchorElUser(event.currentTarget);
+    }
+
+    function handleCloseNavMenu(event) {
+        setAnchorElNav(null);
+    }
+
+    function handleCloseUserMenu(event) {
+        setAnchorElUser(null);
     }
     //#endregion
 
@@ -81,38 +91,109 @@ function Header(props) {
      */
     return (
         <div id="header-div">
-            <h1>Crosspad 3</h1>
-            <strong>Number of times you clicked the button: {props.count}</strong>
-            <br />
-            <Button
-                onClick={() => handleClickEvent('add')}
-                variant="outlined"
-            >
-                Add
-            </Button>
-            <Button
-                onClick={() => handleClickEvent('subtract')}
-                variant="outlined"
-            >
-                Subtract
-            </Button>
+            <AppBar position="static">
+                <Container maxWidth="xl">
+                    <Toolbar disableGutters>
+                        <Typography
+                            variant="h6"
+                            noWrap
+                            component="div"
+                            sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
+                        >
+                            LOGO
+                        </Typography>
+
+                        <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+                            <IconButton
+                                size="large"
+                                aria-label="account of current user"
+                                aria-controls="menu-appbar"
+                                aria-haspopup="true"
+                                onClick={handleOpenNavMenu}
+                                color="inherit"
+                            >
+                                <MenuIcon />
+                            </IconButton>
+                            <Menu
+                                id="menu-appbar"
+                                anchorEl={anchorElNav}
+                                anchorOrigin={{
+                                    vertical: 'bottom',
+                                    horizontal: 'left',
+                                }}
+                                keepMounted
+                                transformOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'left',
+                                }}
+                                open={Boolean(anchorElNav)}
+                                onClose={handleCloseNavMenu}
+                                sx={{
+                                    display: { xs: 'block', md: 'none' },
+                                }}
+                            >
+                                {pages.map((page) => (
+                                    <MenuItem key={page} onClick={handleCloseNavMenu}>
+                                        <Typography textAlign="center">{page}</Typography>
+                                    </MenuItem>
+                                ))}
+                            </Menu>
+                        </Box>
+                        <Typography
+                            variant="h6"
+                            noWrap
+                            component="div"
+                            sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
+                        >
+                            CROSSPAD 3
+                        </Typography>
+                        <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+                            {pages.map((page) => (
+                                <Button
+                                    key={page}
+                                    onClick={handleCloseNavMenu}
+                                    sx={{ my: 2, color: 'white', display: 'block' }}
+                                >
+                                    {page}
+                                </Button>
+                            ))}
+                        </Box>
+
+                        <Box sx={{ flexGrow: 0 }}>
+                            <Tooltip title="Open settings">
+                                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                                    <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                                </IconButton>
+                            </Tooltip>
+                            <Menu
+                                sx={{ mt: '45px' }}
+                                id="menu-appbar"
+                                anchorEl={anchorElUser}
+                                anchorOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                }}
+                                keepMounted
+                                transformOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                }}
+                                open={Boolean(anchorElUser)}
+                                onClose={handleCloseUserMenu}
+                            >
+                                {settings.map((setting) => (
+                                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                                        <Typography textAlign="center">{setting}</Typography>
+                                    </MenuItem>
+                                ))}
+                            </Menu>
+                        </Box>
+                    </Toolbar>
+                </Container>
+            </AppBar>
+            <ButtonReduxExperiment />
         </div>
     );
 }
 
-const mapStateToProps = state => ({
-    count: state.counter.count
-});
-
-const mapDispatchToProps = {
-    decrementCount,
-    incrementCount
-};
-
-Header.propTypes = {
-    count: PropTypes.number,
-    decrementCount: PropTypes.func,
-    incrementCount: PropTypes.func
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default Header;
