@@ -7,6 +7,6 @@ class VendorAPIServiceBase {
          */
         this.axios = axios;
     }
-};
+}
 
 export default VendorAPIServiceBase;

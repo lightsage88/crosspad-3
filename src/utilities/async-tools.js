@@ -4,7 +4,7 @@
  * in the bottom of your constructor add the following line: "AsyncTools.attach(this);"
  * now you can use 'this.setStateAsync(...)' whereever you like in your component.
  */
- class AsyncTools {
+class AsyncTools {
 
     static attach(obj) {
         obj.setStateAsync = AsyncTools.setStateAsync.bind(obj);
