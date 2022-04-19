@@ -12,47 +12,48 @@ import PropTypes from 'prop-types';
 let twitchService = new TwitchService();
 
 /**
- * This class renders the Header component that will be on the top of the application. 
+ * This function returns the Header component that will be on the top of the application. 
  * It will enable users to login, signup, and navigate to children pages throughout the application.
  */
-// class Header extends React.Component {
 function Header(props) {
     const [twitchExpiry, setTwitchExpiry] = useState(new Date());
     const [twitchKey, setTwitchKey] = useState(null);
-    // constructor(props) {
-    //     super(props);
-    //     this.state = {
-    //         count: 0
-    //     };
-    //     this.twitch = new TwitchService();
-    //     AsyncTools.attach(this);
-    // }
 
-    //#region React LifeCycle Methods
     /**
-     * This method is a React LifeCycle method which is called once the component mounts.
+     * This is a React Hook comprising 'componentDidMount', 'componentDidUpdate', and 'componentWillUnmount'
+     * React LifeCycle methods. It is comprised of the following areas from top to bottom:
+     * 1. Declaration Zone - Where variables global to the scope of the entire 'useEffect' method and methods WITHIN
+     * the hook will be defined.
+     * 2. Conditional Zone - Where conditionals involving various props, state values within the component are leveraged
+     * to perform effects on the component and application.
+     * 3. Terminal Zone (optional) - Location of method defined to be run during the 'componentWillUnmount' segment
+     * of the useEffect hook happens.
      */
-    // componentDidMount = () => {
-    //     twitchService.getCredentials();
-    // }
     useEffect(() => {
-        console.log('useEffectGoing');
+        //#region Declaration Zone
+        /**
+         * This method gets the API Key needed to make requests to the Twitch API.
+         * It then sets the key value in state, and sets a timer for when a reset will occur based
+         * on the expiry received in the response from Twitch.
+         */
         async function fetchTwitchKey() {
-            console.log('in the async');
             let twitchCredentialResponse = await twitchService.getCredentials();
-            console.log('twitchCredentialResponse', twitchCredentialResponse);
             let twitchKeyExpiry = twitchCredentialResponse.data.expires_in;
             let refreshTwitchTime = moment().add(twitchKeyExpiry, 'ms');
-            console.log('refreshTwitchTime', refreshTwitchTime);
-            console.log('refreshTwitchTime as Date', new Date(refreshTwitchTime));
             setTwitchExpiry(new Date(refreshTwitchTime));
             setTwitchKey(twitchCredentialResponse.data);
         }
+        //#endregion
+        //#region Conditional Zone
+        /**
+         * "If there is no twitchKey state property OR the current date is more advanced than our expiry target,
+         * fetch the TwitchKey"
+         */
         if (new Date() > twitchExpiry || !twitchKey) {
             fetchTwitchKey();
         } 
+        //#endregion
     });
-    //#endregion
 
     //#region Event Handlers
     /**
