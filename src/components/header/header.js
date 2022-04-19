@@ -13,10 +13,12 @@ import MenuItem from '@mui/material/MenuItem';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import Button from '@mui/material/Button';
+import GiantBombService from '../../vendor-api-services/giant-bomb-service.js';
 import TwitchService from '../../vendor-api-services/twitch-service.js';
 import AsyncTools from '../../utilities/async-tools.js';
 import PropTypes from 'prop-types';
 import ButtonReduxExperiment from '../button-redux-experiment/button-redux-experiment';
+let giantBombService = new GiantBombService();
 let twitchService = new TwitchService();
 
 /**
@@ -28,6 +30,7 @@ function Header(props) {
     const [anchorElUser, setAnchorElUser] = useState(null);
     const [twitchExpiry, setTwitchExpiry] = useState(new Date());
     const [twitchKey, setTwitchKey] = useState(null);
+    const [giantBombKey, setGiantBombKey] = useState(null);
     const pages = ['Home', 'About', 'Projects', 'Contact'];
     const settings = ['Profile', 'Account', 'Dashboard', 'Logout', 'Delete THIS'];
 
@@ -82,6 +85,16 @@ function Header(props) {
 
     function handleCloseUserMenu(event) {
         setAnchorElUser(null);
+    }
+    
+    async function testGiantBombAPI() {
+        console.log('testGiantBombAPI running');
+        let response = await giantBombService.getGames({
+            query: {
+                'name': 'Sonic'
+            }
+        });
+        console.log('testGiantBombAPI Response: ', response);
     }
     //#endregion
 
@@ -192,6 +205,7 @@ function Header(props) {
                 </Container>
             </AppBar>
             <ButtonReduxExperiment />
+            <Button onClick={() => testGiantBombAPI()}>MARIO!</Button>
         </div>
     );
 }
