@@ -89,17 +89,11 @@ function Header(props) {
     }
     
     async function testGiantBombAPI() {
-        console.log('testGiantBombAPI running');
-        // let response = await giantBombService.getGames({
-        //     query: {
-        //         'name': 'Sonic'
-        //     }
-        // });
-        // console.log('testGiantBombAPI Response: ', response);
         let response = await GiantBombReviewStorage.read({
             query: {
                 resourceName: 'review',
-                name: 'Tetris'
+                name: 'Tetris',
+                identifierType: 'name'
             }
         });
         console.log('boola', response);
