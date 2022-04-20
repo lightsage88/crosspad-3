@@ -206,8 +206,6 @@ function Header(props) {
                     </Toolbar>
                 </Container>
             </AppBar>
-            <ButtonReduxExperiment />
-            <Button onClick={() => testGiantBombAPI()}>MARIO!</Button>
         </div>
     );
 }
