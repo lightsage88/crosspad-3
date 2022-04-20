@@ -8,9 +8,12 @@ class GiantBombService extends VendorAPIServiceBase {
     }
 
     async getGamesFromServer(req, res) {
-        return {
-           data: ['Sonic 1', 'Mario 5', 'Metroid 6']
-        };
+        // return {
+        //     let response = this.axios({
+        //         url: '/giant-bomb?queryString=Super Smash Bros&resourceName=search'
+        //     });
+        //    // data: ['Sonic 1', 'Mario 5', 'Metroid 6']
+        // };
     }
 
     // /**

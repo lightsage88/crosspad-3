@@ -13,6 +13,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import Button from '@mui/material/Button';
+import { GiantBombReviewStorage } from '../../data/giant-bomb-review-storage.js';
 import GiantBombService from '../../vendor-api-services/giant-bomb-service.js';
 import TwitchService from '../../vendor-api-services/twitch-service.js';
 import AsyncTools from '../../utilities/async-tools.js';
@@ -89,12 +90,19 @@ function Header(props) {
     
     async function testGiantBombAPI() {
         console.log('testGiantBombAPI running');
-        let response = await giantBombService.getGames({
+        // let response = await giantBombService.getGames({
+        //     query: {
+        //         'name': 'Sonic'
+        //     }
+        // });
+        // console.log('testGiantBombAPI Response: ', response);
+        let response = await GiantBombReviewStorage.read({
             query: {
-                'name': 'Sonic'
+                resourceName: 'review',
+                name: 'Tetris'
             }
         });
-        console.log('testGiantBombAPI Response: ', response);
+        console.log('boola', response);
     }
     //#endregion
 
