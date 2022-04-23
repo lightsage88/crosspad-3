@@ -1,5 +1,5 @@
 class GiantBombGameSearch {
-    constructor (clone) {
+    constructor(clone) {
         /**
          * @type {String}
          */
@@ -24,6 +24,31 @@ class GiantBombGameSearch {
          * @type {String}
          */
         this.Icon_Image_URL = clone?.image?.icon_url;
+
+        /**
+         * @type {String}
+         */
+        this.Medium_Image_URL = clone?.image?.medium_url;
+
+        /**
+         * @type {String}
+         */
+        this.Original_Image_URL = clone?.image?.original_url;
+
+        /**
+         * @type {String}
+         */
+        this.Screen_Image_URL = clone?.image?.screen_url;
+
+        /**
+         * @type {String}
+         */
+        this.Small_Image_URL = clone?.image?.small_url;
+
+        /**
+         * @type {String}
+         */
+        this.Tiny_Image_URL = clone?.image?.tiny_url;
 
         /**
          * @type {String}

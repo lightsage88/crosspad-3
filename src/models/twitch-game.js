@@ -1,5 +1,5 @@
 class TwitchGame {
-    constructor (clone) {
+    constructor(clone) {
         /**
          * @type {Number}
          */

@@ -48,11 +48,10 @@ function Search(props) {
                 setOptions(searchResponse.data);
             }
         })();
-        console.log('Search component useEffect going');
-
         return () => {
             active = false;
         };
+
     }, [queryString]);
 
     return (
@@ -69,7 +68,11 @@ function Search(props) {
                     setOpen(false);
                 }}
                 isOptionEqualToValue={(option, value) => option.Name === value.Name}
-                getOptionLabel={(option) => option?.Name}
+                getOptionLabel={(option) => {
+                    props.updateGame(option);
+                    return option?.Name;
+                }
+                }
                 options={options}
                 loading={loading}
                 renderInput={(params) => (
