@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import CircularProgress from '@mui/material/CircularProgress';
+import IGDBRatingStorage from '../../data/igdb-rating-service';
 import GiantBombGameSearchStorage from '../../data/giant-bomb-game-search-storage';
 
 function Search(props) {
@@ -20,6 +21,18 @@ function Search(props) {
         console.log('handleSearchInputChange running...', e.target.value);
         setOptions([]);
         setQueryString(e.target.value);
+    }
+
+    async function getGameReviewScoreData(gameSelection) {
+        console.log('getGameReviewScoreData running with game selection...', gameSelection);
+        let gameReviewScoreDataResponse = await IGDBRatingStorage(
+            {
+                resourceName: 'reviewScore',
+                queryString: gameSelection.Name
+            }
+        );
+        console.log('🚀 ~ file: search.js ~ line 34 ~ getGameReviewScoreData ~ gameReviewScoreDataResponse', gameReviewScoreDataResponse);
+        
     }
 
     useEffect(() => {

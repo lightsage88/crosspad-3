@@ -13,13 +13,10 @@ import MenuItem from '@mui/material/MenuItem';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import Button from '@mui/material/Button';
-import { GiantBombReviewStorage } from '../../data/giant-bomb-review-storage.js';
-import GiantBombService from '../../vendor-api-services/giant-bomb-service.js';
 import TwitchService from '../../vendor-api-services/twitch-service.js';
 import AsyncTools from '../../utilities/async-tools.js';
 import PropTypes from 'prop-types';
 import ButtonReduxExperiment from '../button-redux-experiment/button-redux-experiment';
-let giantBombService = new GiantBombService();
 let twitchService = new TwitchService();
 
 /**
@@ -86,17 +83,6 @@ function Header(props) {
 
     function handleCloseUserMenu(event) {
         setAnchorElUser(null);
-    }
-    
-    async function testGiantBombAPI() {
-        let response = await GiantBombReviewStorage.read({
-            query: {
-                resourceName: 'review',
-                name: 'Tetris',
-                identifierType: 'name'
-            }
-        });
-        console.log('boola', response);
     }
     //#endregion
 
